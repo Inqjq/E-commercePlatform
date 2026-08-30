@@ -1,0 +1,62 @@
+# 渡风电商平台 - 云服务器中间件部署（MySQL 8 + Redis 7）
+# 适配 4核4G 服务器：后端与中间件同机部署，端口只绑定 127.0.0.1，不暴露公网。
+# 使用方法见同目录 README.md
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: dufeng-mysql
+    restart: unless-stopped
+    ports:
+      # 只绑定本机回环地址，公网无法直连 3306；后端通过 127.0.0.1:3306 访问
+      - "127.0.0.1:3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-dufeng}
+      TZ: Asia/Shanghai
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+      # 4G 内存机器给 MySQL 的缓冲池控制在 512M，避免与后端 JVM 争抢内存
+      - --innodb_buffer_pool_size=512M
+      - --max_connections=200
+    volumes:
+      - mysql-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-uroot", "-p${MYSQL_ROOT_PASSWORD}"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+
+  redis:
+    image: redis:7
+    container_name: dufeng-redis
+    restart: unless-stopped
+    ports:
+      # 同理只绑定回环地址
+      - "127.0.0.1:6379:6379"
+    command:
+      - redis-server
+      - --requirepass
+      - ${REDIS_PASSWORD}
+      - --appendonly
+      - "yes"
+      # 限制内存并淘汰过期键，防止验证码/幂等键堆积占满内存
+      - --maxmemory
+      - 256mb
+      - --maxmemory-policy
+      - volatile-ttl
+    volumes:
+      - redis-data:/data
+    healthcheck:
+      test: ["CMD-SHELL", "redis-cli -a $$REDIS_PASSWORD ping | grep PONG"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    environment:
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
+
+volumes:
+  mysql-data:
+  redis-data:

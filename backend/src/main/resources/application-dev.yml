@@ -1,0 +1,19 @@
+# 开发环境配置：本地默认值仅用于开发，生产环境使用 application-prod + 环境变量
+spring:
+  datasource:
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:root}
+
+dufeng:
+  jwt:
+    secret: ${JWT_SECRET:dWZlbmctZGV2LWp3dC1zZWNyZXQta2V5LW9ubHktZm9yLWxvY2FsLWRldmVsb3BtZW50}
+  pay:
+    secret: ${PAY_SECRET:dufeng-dev-pay-secret-local-only}
+    # 本地联调模拟支付网关回调，生产必须为 false
+    mock-callback-enabled: ${PAY_MOCK_CALLBACK:true}
+  cors:
+    allowed-origins: ${CORS_ALLOWED_ORIGINS:http://localhost:5173,http://127.0.0.1:5173}
+
+logging:
+  level:
+    com.dufeng: debug

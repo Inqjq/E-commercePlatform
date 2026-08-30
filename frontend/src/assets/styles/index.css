@@ -1,0 +1,83 @@
+@import './variables.css';
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#app {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Helvetica Neue', Helvetica, 'PingFang SC', 'Hiragino Sans GB',
+    'Microsoft YaHei', Arial, sans-serif;
+  color: var(--df-text-main);
+  background-color: var(--df-bg-page);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  color: var(--df-primary);
+  text-decoration: none;
+}
+
+a:hover {
+  opacity: 0.85;
+}
+
+.df-page {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.df-card {
+  background: #fff;
+  border-radius: var(--df-radius);
+  box-shadow: var(--df-shadow);
+}
+
+.df-mb-16 {
+  margin-bottom: 16px;
+}
+
+.df-flex {
+  display: flex;
+  align-items: center;
+}
+
+.df-flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.df-text-muted {
+  color: var(--df-text-secondary);
+}
+
+.df-price {
+  color: var(--df-danger);
+  font-weight: 600;
+}
+
+/* 滚动条美化 */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c8cdd6;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}

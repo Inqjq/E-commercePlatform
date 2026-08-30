@@ -1,0 +1,27 @@
+:root {
+  /* 品牌色 */
+  --df-primary: #3d7eff;
+  --df-danger: #f56c6c;
+  --df-success: #67c23a;
+  --df-warning: #e6a23c;
+  --df-info: #909399;
+
+  /* 文本色 */
+  --df-text-main: #303133;
+  --df-text-regular: #606266;
+  --df-text-secondary: #909399;
+  --df-text-placeholder: #c0c4cc;
+
+  /* 背景 */
+  --df-bg-page: #f5f7fa;
+  --df-bg-white: #ffffff;
+
+  /* 圆角与阴影 */
+  --df-radius: 8px;
+  --df-radius-sm: 4px;
+  --df-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.06);
+
+  /* 布局尺寸 */
+  --df-header-height: 60px;
+  --df-sidebar-width: 220px;
+}

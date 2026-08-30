@@ -1,0 +1,91 @@
+spring:
+  application:
+    name: dufeng-ecommerce-backend
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:dev}
+  datasource:
+    url: jdbc:mysql://${DB_HOST:localhost}:${DB_PORT:3306}/${DB_NAME:dufeng}?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      maximum-pool-size: 20
+      minimum-idle: 5
+      connection-timeout: 30000
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+      password: ${REDIS_PASSWORD:}
+      timeout: 3s
+      lettuce:
+        pool:
+          max-active: 8
+          max-idle: 8
+          min-idle: 0
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+    baseline-on-migrate: true
+    baseline-version: 0
+    connect-retries: 3
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+    default-property-inclusion: non_null
+
+server:
+  port: ${SERVER_PORT:8080}
+  servlet:
+    context-path: /
+
+mybatis-plus:
+  mapper-locations: classpath*:mapper/**/*.xml
+  type-aliases-package: com.dufeng.module
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.slf4j.Slf4jImpl
+  global-config:
+    banner: false
+    db-config:
+      id-type: assign_id
+      logic-delete-field: deleted
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    tags-sorter: alpha
+    operations-sorter: alpha
+
+dufeng:
+  jwt:
+    # Base64 密钥，必须由环境变量注入，不提供默认值
+    secret: ${JWT_SECRET}
+    expire-seconds: ${JWT_EXPIRE:604800}
+    header: Authorization
+    prefix: "Bearer "
+  auth:
+    login-expire-seconds: ${LOGIN_EXPIRE:604800}
+    sms-expire-seconds: 300
+    sms-send-interval-seconds: 60
+  pay:
+    # 支付回调签名密钥，必须由环境变量注入
+    secret: ${PAY_SECRET}
+  alipay:
+    # 启用后 alipay 渠道走真实支付宝（沙箱/生产），关闭时退回模拟回调
+    enabled: ${ALIPAY_ENABLED:false}
+    app-id: ${ALIPAY_APP_ID:}
+    private-key: ${ALIPAY_PRIVATE_KEY:}
+    alipay-public-key: ${ALIPAY_PUBLIC_KEY:}
+    gateway: ${ALIPAY_GATEWAY:https://openapi-sandbox.dl.alipaydev.com/gateway.do}
+    notify-url: ${ALIPAY_NOTIFY_URL:}
+    return-url: ${ALIPAY_RETURN_URL:}
+  order:
+    timeout-minutes: ${ORDER_TIMEOUT_MINUTES:30}
+  cors:
+    # 生产环境必须配置为前端站点具体来源（逗号分隔）
+    allowed-origins: ${CORS_ALLOWED_ORIGINS:}

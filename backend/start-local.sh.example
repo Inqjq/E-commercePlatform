@@ -1,0 +1,31 @@
+#!/bin/bash
+# 本地启动脚本【模板】：复制为同目录 start-local.sh 并填入真实密钥后使用。
+# start-local.sh 已被 .gitignore 忽略，密钥只存在于你自己的电脑，不会进 git。
+# 用法：cp start-local.sh.example start-local.sh && 编辑密钥 && bash start-local.sh
+
+# ===== 支付宝沙箱（在沙箱控制台"查看"里获取） =====
+export ALIPAY_ENABLED=true
+export ALIPAY_APP_ID=9021xxxxxxxx
+export ALIPAY_PRIVATE_KEY="粘贴应用私钥"
+export ALIPAY_PUBLIC_KEY="粘贴支付宝公钥"
+export ALIPAY_RETURN_URL=http://localhost:5173
+# notify 回调需要公网，本地联调靠轮询查单，留空即可
+# export ALIPAY_NOTIFY_URL=https://你的域名/api/portal/pay/callback/alipay/notify
+
+# ===== 中间件连接（application-dev.yml 默认连本机 localhost；中间件在云服务器时按需覆盖） =====
+# 方式一：直连云服务器中间件（服务器 IP 替换下面的占位）
+# export DB_HOST=119.29.167.133
+# export DB_PORT=3306
+# export DB_USERNAME=dufeng
+# export DB_PASSWORD=服务器MySQL上为dufeng库创建的账号密码
+# export REDIS_HOST=119.29.167.133
+# export REDIS_PORT=6379
+# export REDIS_PASSWORD=服务器Redis的requirepass
+# 方式二（更安全）：SSH 隧道转发，Redis 不暴露公网
+#   ssh -N -L 16379:127.0.0.1:6379 user@服务器IP
+#   export REDIS_HOST=127.0.0.1
+#   export REDIS_PORT=16379
+#   export REDIS_PASSWORD=服务器Redis的requirepass
+
+cd "$(dirname "$0")" || exit 1
+mvn spring-boot:run

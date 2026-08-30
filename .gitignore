@@ -1,0 +1,14 @@
+# 密钥与本地配置
+deploy/.env
+backend/start-local.sh
+frontend/.env.local
+
+# 构建产物 / IDE
+target/
+node_modules/
+dist/
+*.log
+.idea/
+*.iml
+.vscode/
+.DS_Store

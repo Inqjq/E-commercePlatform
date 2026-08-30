@@ -1,0 +1,67 @@
+# 渡风电商平台 - 联调模式中间件（MySQL 8 + Redis 7）
+# 拓扑：中间件在云服务器，后端/前端在本地远程连接。
+# ⚠️ 端口发布在公网，必须在云安全组把 3306/6379 的来源限制为你本地的出口 IP，
+#    且 .env 中的密码必须是强密码。
+# 生产同机部署请使用 docker-compose.yml（仅绑定 127.0.0.1）。
+#
+# 使用：deploy/ 目录下创建 .env 后执行
+#   docker compose -f docker-compose.dev.yml up -d
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: dufeng-mysql
+    restart: unless-stopped
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-dufeng}
+      # 自动创建业务账号 duFeng，仅对 dufeng 库有权限（应用不要用 root 连接）
+      MYSQL_USER: ${MYSQL_USER:-dufeng}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      TZ: Asia/Shanghai
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+      # 4G 内存机器给 MySQL 的缓冲池控制在 512M
+      - --innodb_buffer_pool_size=512M
+      - --max_connections=200
+    volumes:
+      - mysql-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-uroot", "-p${MYSQL_ROOT_PASSWORD}"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+
+  redis:
+    image: redis:7
+    container_name: dufeng-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    command:
+      - redis-server
+      - --requirepass
+      - ${REDIS_PASSWORD}
+      - --appendonly
+      - "yes"
+      - --maxmemory
+      - 256mb
+      - --maxmemory-policy
+      - volatile-ttl
+    volumes:
+      - redis-data:/data
+    environment:
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
+    healthcheck:
+      test: ["CMD-SHELL", "redis-cli -a $$REDIS_PASSWORD ping | grep PONG"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  mysql-data:
+  redis-data:

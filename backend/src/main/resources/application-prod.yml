@@ -1,0 +1,11 @@
+# 生产环境配置：所有凭证必须通过环境变量注入，缺失时启动即失败（快速失败优于弱默认值）
+springdoc:
+  api-docs:
+    enabled: false
+  swagger-ui:
+    enabled: false
+
+logging:
+  level:
+    com.dufeng: info
+    org.springframework.security: warn
