@@ -3,6 +3,7 @@ package com.dufeng.module.user.service;
 import com.dufeng.common.exception.BusinessException;
 import com.dufeng.common.result.ResultCode;
 import com.dufeng.config.AuthProperties;
+import com.dufeng.module.user.service.impl.SmsCodeServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -43,7 +44,7 @@ class SmsCodeServiceTest {
         redisTemplate = mock(StringRedisTemplate.class);
         valueOperations = mock(ValueOperations.class);
         when(redisTemplate.opsForValue()).thenReturn(valueOperations);
-        smsCodeService = new SmsCodeService(redisTemplate, new AuthProperties());
+        smsCodeService = new SmsCodeServiceImpl(redisTemplate, new AuthProperties());
     }
 
     @Test

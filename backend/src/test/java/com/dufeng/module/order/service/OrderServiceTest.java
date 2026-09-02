@@ -12,6 +12,7 @@ import com.dufeng.module.order.entity.OrderItem;
 import com.dufeng.module.order.entity.Orders;
 import com.dufeng.module.order.mapper.OrderItemMapper;
 import com.dufeng.module.order.mapper.OrdersMapper;
+import com.dufeng.module.order.service.impl.OrderServiceImpl;
 import org.apache.ibatis.builder.MapperBuilderAssistant;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -53,7 +54,7 @@ class OrderServiceTest {
         ordersMapper = mock(OrdersMapper.class);
         orderItemMapper = mock(OrderItemMapper.class);
         skuMapper = mock(SkuMapper.class);
-        orderService = new OrderService(ordersMapper, orderItemMapper, skuMapper,
+        orderService = new OrderServiceImpl(ordersMapper, orderItemMapper, skuMapper,
                 mock(GoodsService.class), mock(AddressService.class), mock(CartService.class),
                 mock(ShopMapper.class), mock(StringRedisTemplate.class), new OrderProperties());
     }

@@ -1,6 +1,7 @@
 # 密钥与本地配置
 deploy/.env
 backend/start-local.sh
+backend/start-local.ps1
 frontend/.env.local
 
 # 构建产物 / IDE

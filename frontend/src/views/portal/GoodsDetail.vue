@@ -13,7 +13,7 @@
           <div class="subtitle">{{ goods.subtitle }}</div>
           <div class="price-box">
             <span class="cur-price"><span class="yuan">¥</span>{{ formatPrice(selectedSku?.price ?? goods.price) }}</span>
-            <span class="market">市场价 ¥{{ formatPrice(goods.marketPrice) }}</span>
+            <span v-if="goods.marketPrice" class="market">市场价 ¥{{ formatPrice(goods.marketPrice) }}</span>
           </div>
           <div class="stats df-flex">
             <span>销量 {{ goods.sales }}</span>

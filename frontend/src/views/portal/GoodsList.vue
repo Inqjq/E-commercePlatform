@@ -5,9 +5,9 @@
         <span class="label">分类</span>
         <div class="options">
           <span :class="{ active: !query.categoryId }" @click="setCategory(null)">全部</span>
-          <span v-for="cat in categories" :key="cat.id" :class="{ active: Number(query.categoryId) === cat.id || Number(query.categoryId) === cat.children?.some(c => c.id === Number(query.categoryId)) }" @click="setCategory(cat.id)">{{ cat.name }}</span>
+          <span v-for="cat in categories" :key="cat.id" :class="{ active: String(query.categoryId) === String(cat.id) || cat.children?.some(c => String(c.id) === String(query.categoryId)) }" @click="setCategory(cat.id)">{{ cat.name }}</span>
           <template v-for="cat in categories" :key="'sub'+cat.id">
-            <span v-for="child in cat.children" :key="child.id" :class="{ active: Number(query.categoryId) === child.id }" class="sub" @click="setCategory(child.id)">{{ child.name }}</span>
+            <span v-for="child in cat.children" :key="child.id" :class="{ active: String(query.categoryId) === String(child.id) }" class="sub" @click="setCategory(child.id)">{{ child.name }}</span>
           </template>
         </div>
       </div>
@@ -15,7 +15,7 @@
         <span class="label">品牌</span>
         <div class="options">
           <span :class="{ active: !query.brandId }" @click="setBrand(null)">全部</span>
-          <span v-for="b in brands" :key="b.id" :class="{ active: Number(query.brandId) === b.id }" @click="setBrand(b.id)">{{ b.name }}</span>
+          <span v-for="b in brands" :key="b.id" :class="{ active: String(query.brandId) === String(b.id) }" @click="setBrand(b.id)">{{ b.name }}</span>
         </div>
       </div>
       <div class="row">
@@ -130,8 +130,11 @@ watch(() => route.query, () => {
 onMounted(async () => {
   syncQuery();
   fetchList();
-  categories.value = await getCategories();
-  brands.value = await getBrands();
+  // 分类/品牌为筛选辅助数据，任一失败不应阻断页面主体加载
+  Promise.all([
+    getCategories().then((v) => { categories.value = v || []; }).catch(() => {}),
+    getBrands().then((v) => { brands.value = v || []; }).catch(() => {}),
+  ]);
 });
 </script>
 

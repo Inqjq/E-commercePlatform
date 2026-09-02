@@ -8,10 +8,10 @@
         </router-link>
 
         <nav class="nav">
-          <router-link to="/" class="nav-item">首页</router-link>
-          <router-link to="/goods/list" class="nav-item">全部商品</router-link>
-          <router-link to="/goods/list?sortBy=sales" class="nav-item">热销</router-link>
-          <router-link to="/coupon" class="nav-item">优惠券</router-link>
+          <router-link to="/" class="nav-item" :class="{ active: route.path === '/' }">首页</router-link>
+          <router-link to="/goods/list" class="nav-item" :class="{ active: isGoodsActive('') }">全部商品</router-link>
+          <router-link to="/goods/list?sortBy=sales" class="nav-item" :class="{ active: isGoodsActive('sales') }">热销</router-link>
+          <router-link to="/coupon" class="nav-item" :class="{ active: route.path === '/coupon' }">优惠券</router-link>
         </nav>
 
         <div class="search-box">
@@ -83,16 +83,24 @@
 
 <script setup>
 import { ref, onMounted } from 'vue';
-import { useRouter } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
 import { ElMessage } from 'element-plus';
 import { Search, ShoppingCart, CaretBottom } from '@element-plus/icons-vue';
 import { useUserStore } from '@/stores/user';
 import { useCartStore } from '@/stores/cart';
 
 const router = useRouter();
+const route = useRoute();
 const userStore = useUserStore();
 const cartStore = useCartStore();
 const keyword = ref('');
+
+// 商品页导航高亮：区分“全部商品”与“热销”，避免二者同时被 exact-active 命中
+function isGoodsActive(sort) {
+  if (route.path !== '/goods/list') return false;
+  const activeSort = route.query.sortBy || '';
+  return sort ? activeSort === sort : !activeSort;
+}
 
 function doSearch() {
   router.push({ path: '/goods/list', query: { keyword: keyword.value } });
@@ -124,7 +132,7 @@ onMounted(() => {
 .logo-img { width: 32px; height: 32px; }
 .nav { display: flex; gap: 18px; }
 .nav-item { color: var(--df-text-regular); font-size: 15px; padding: 6px 0; }
-.nav-item.router-link-exact-active { color: var(--df-primary); font-weight: 600; border-bottom: 2px solid var(--df-primary); }
+.nav-item.active { color: var(--df-primary); font-weight: 600; border-bottom: 2px solid var(--df-primary); }
 .search-box { flex: 1; max-width: 420px; }
 .actions { display: flex; align-items: center; gap: 16px; }
 .action { display: flex; flex-direction: column; align-items: center; color: var(--df-text-regular); font-size: 12px; }

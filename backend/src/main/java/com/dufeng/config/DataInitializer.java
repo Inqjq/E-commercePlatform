@@ -97,22 +97,69 @@ public class DataInitializer implements CommandLineRunner {
 
     private void seedCatalog() {
         Category electronics = ensureCategory("数码电子", 0L, 1);
-        Category clothing = ensureCategory("服饰鞋包", 0L, 2);
-        Category food = ensureCategory("食品生鲜", 0L, 3);
+        Category appliance = ensureCategory("家用电器", 0L, 2);
+        Category clothing = ensureCategory("服饰鞋包", 0L, 3);
+        Category beauty = ensureCategory("美妆护肤", 0L, 4);
+        Category food = ensureCategory("食品生鲜", 0L, 5);
 
-        ensureBrand("华为");
-        ensureBrand("小米");
+        // 二级分类
+        Category phone = ensureCategory("手机", electronics.getId(), 1);
+        Category laptop = ensureCategory("笔记本", electronics.getId(), 2);
+        Category tablet = ensureCategory("平板", electronics.getId(), 3);
+        Category tv = ensureCategory("电视", appliance.getId(), 1);
+        Category fridge = ensureCategory("冰箱", appliance.getId(), 2);
+        Category washer = ensureCategory("洗衣机", appliance.getId(), 3);
+        Category menswear = ensureCategory("男装", clothing.getId(), 1);
+        Category womenswear = ensureCategory("女装", clothing.getId(), 2);
+        Category shoes = ensureCategory("鞋靴", clothing.getId(), 3);
+        Category skincare = ensureCategory("面部护肤", beauty.getId(), 1);
+        Category makeup = ensureCategory("彩妆", beauty.getId(), 2);
+        Category snacks = ensureCategory("休闲零食", food.getId(), 1);
+        Category fruits = ensureCategory("水果", food.getId(), 2);
+
+        Long huawei = ensureBrand("华为");
+        Long xiaomi = ensureBrand("小米");
+        Long apple = ensureBrand("苹果");
+        Long midea = ensureBrand("美的");
+        Long haier = ensureBrand("海尔");
+        Long uniqlo = ensureBrand("优衣库");
+        Long belle = ensureBrand("百丽");
+        Long origins = ensureBrand("悦木之源");
+        Long perfectDiary = ensureBrand("完美日记");
+        Long threeSquirrels = ensureBrand("三只松鼠");
 
         Shop shop = shopMapper.selectList(new LambdaQueryWrapper<Shop>().last("LIMIT 1")).stream().findFirst().orElse(null);
         if (shop == null) {
             return;
         }
-        ensureGoods(shop.getId(), electronics.getId(), "华为 Mate 60 Pro", "旗舰影像，麒麟芯片",
+        ensureGoods(shop.getId(), phone.getId(), huawei, "华为 Mate 60 Pro", "旗舰影像，麒麟芯片",
                 new BigDecimal("6999.00"), List.of("曜金黑", "雅川青"), "HC-MATE60", "/img/goods-1.jpg");
-        ensureGoods(shop.getId(), electronics.getId(), "小米15 Pro", "骁龙8至尊版，徕卡影像",
+        ensureGoods(shop.getId(), phone.getId(), xiaomi, "小米15 Pro", "骁龙8至尊版，徕卡影像",
                 new BigDecimal("5299.00"), List.of("黑色", "白色"), "XM-15PRO", "/img/goods-2.jpg");
-        ensureGoods(shop.getId(), clothing.getId(), "纯棉基础T恤", "柔软亲肤，四季百搭",
-                new BigDecimal("89.00"), List.of("白色", "黑色"), "TC-BASE", "/img/goods-3.jpg");
+        ensureGoods(shop.getId(), phone.getId(), apple, "Apple iPhone 15 Pro", "A17 Pro 芯片，钛金属机身",
+                new BigDecimal("7999.00"), List.of("原色钛金属", "蓝色钛金属"), "AP-15PRO", "/img/goods-4.jpg");
+        ensureGoods(shop.getId(), laptop.getId(), apple, "Apple MacBook Air M3", "M3 芯片，轻薄长续航",
+                new BigDecimal("9499.00"), List.of("午夜色", "星光色"), "AP-MBA-M3", "/img/goods-6.jpg");
+        ensureGoods(shop.getId(), tablet.getId(), xiaomi, "小米平板 6 Pro", "2.8K 高刷屏，骁龙8+",
+                new BigDecimal("2499.00"), List.of("黑色", "蓝色"), "XM-PAD6P", "/img/goods-5.jpg");
+        ensureGoods(shop.getId(), tv.getId(), midea, "美的 55英寸 4K 智能电视", "4K 超高清，全面屏",
+                new BigDecimal("2999.00"), List.of("55英寸"), "MD-TV55", "/img/goods-7.jpg");
+        ensureGoods(shop.getId(), fridge.getId(), haier, "海尔 505L 十字对开门冰箱", "一级能效，风冷无霜",
+                new BigDecimal("4599.00"), List.of("星空灰"), "HAIER-505", "/img/goods-8.jpg");
+        ensureGoods(shop.getId(), menswear.getId(), uniqlo, "优衣库 男装 防风连帽外套", "防风防泼水，轻盈保暖",
+                new BigDecimal("399.00"), List.of("深灰", "藏青"), "UNI-JACKET", "/img/goods-9.jpg");
+        ensureGoods(shop.getId(), womenswear.getId(), uniqlo, "女装 法式碎花连衣裙", "收腰显瘦，度假风",
+                new BigDecimal("259.00"), List.of("碎花"), "DRESS-FL", "/img/goods-10.jpg");
+        ensureGoods(shop.getId(), shoes.getId(), belle, "百丽 女士平底单鞋", "软底舒适，通勤百搭",
+                new BigDecimal("329.00"), List.of("黑色", "米白"), "BELLE-SHOE", "/img/goods-11.jpg");
+        ensureGoods(shop.getId(), skincare.getId(), origins, "悦木之源 灵芝焕能精华水", "修护保湿，舒缓维稳",
+                new BigDecimal("580.00"), List.of("200ml"), "OM-ESSENCE", "/img/goods-12.jpg");
+        ensureGoods(shop.getId(), makeup.getId(), perfectDiary, "完美日记 哑光唇釉", "雾面显白，持久不拔干",
+                new BigDecimal("89.00"), List.of("豆沙色", "正红色"), "PERFECT-LIP", "/img/goods-13.jpg");
+        ensureGoods(shop.getId(), snacks.getId(), threeSquirrels, "三只松鼠 每日坚果礼盒", "科学配比，新鲜锁鲜",
+                new BigDecimal("129.00"), List.of("30包"), "SZS-NUTS", "/img/goods-14.jpg");
+        ensureGoods(shop.getId(), fruits.getId(), null, "智利车厘子 2斤装", "JJ 级大果，甜脆多汁",
+                new BigDecimal("99.00"), List.of("2斤装"), "CHERRY-JJ", "/img/goods-15.jpg");
     }
 
     private Long ensureUser(String username, String password, String nickname, String role) {
@@ -164,24 +211,36 @@ public class DataInitializer implements CommandLineRunner {
         return category;
     }
 
-    private void ensureBrand(String name) {
-        Long count = brandMapper.selectCount(new LambdaQueryWrapper<Brand>().eq(Brand::getName, name));
-        if (count == 0) {
-            Brand brand = new Brand();
-            brand.setName(name);
-            brandMapper.insert(brand);
+    private Long ensureBrand(String name) {
+        Brand existing = brandMapper.selectOne(new LambdaQueryWrapper<Brand>().eq(Brand::getName, name));
+        if (existing != null) {
+            return existing.getId();
         }
+        Brand brand = new Brand();
+        brand.setName(name);
+        brandMapper.insert(brand);
+        return brand.getId();
     }
 
-    private void ensureGoods(Long shopId, Long categoryId, String title, String subtitle,
+    private void ensureGoods(Long shopId, Long categoryId, Long brandId, String title, String subtitle,
                              BigDecimal price, List<String> specs, String skuCode, String imagePath) {
-        Long count = goodsMapper.selectCount(new LambdaQueryWrapper<Goods>().eq(Goods::getTitle, title));
-        if (count > 0) {
+        Goods goods = goodsMapper.selectOne(new LambdaQueryWrapper<Goods>().eq(Goods::getTitle, title));
+        if (goods != null) {
+            // 演示数据重建分类/品牌后，回填已存在商品的归属，保持筛选口径一致
+            if (!java.util.Objects.equals(goods.getCategoryId(), categoryId)
+                    || !java.util.Objects.equals(goods.getBrandId(), brandId)) {
+                Goods patch = new Goods();
+                patch.setId(goods.getId());
+                patch.setCategoryId(categoryId);
+                patch.setBrandId(brandId);
+                goodsMapper.updateById(patch);
+            }
             return;
         }
-        Goods goods = new Goods();
+        goods = new Goods();
         goods.setShopId(shopId);
         goods.setCategoryId(categoryId);
+        goods.setBrandId(brandId);
         goods.setTitle(title);
         goods.setSubtitle(subtitle);
         goods.setMainImage(imagePath);

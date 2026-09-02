@@ -45,6 +45,7 @@ public class SecurityConfig {
                                 "/api/portal/auth/**",
                                 "/api/portal/goods/**",
                                 "/api/portal/category/**",
+                                "/api/portal/brand/**",
                                 "/api/portal/home/**",
                                 "/api/portal/shop/**"
                         ).permitAll()

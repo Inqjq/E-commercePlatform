@@ -9,6 +9,7 @@ import com.dufeng.module.order.entity.Orders;
 import com.dufeng.module.order.service.OrderService;
 import com.dufeng.module.payment.dto.PayCallbackRequest;
 import com.dufeng.module.payment.entity.Payment;
+import com.dufeng.module.payment.service.impl.PaymentServiceImpl;
 import com.dufeng.module.payment.mapper.PaymentMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -57,7 +58,7 @@ class PaymentServiceTest {
         AlipayProperties alipayProperties = new AlipayProperties();
         alipayProperties.setEnabled(false);
         alipayProperties.setAppId(APP_ID);
-        paymentService = new PaymentService(paymentMapper, orderService, paymentProperties,
+        paymentService = new PaymentServiceImpl(paymentMapper, orderService, paymentProperties,
                 alipayProperties, alipayService);
     }
 
