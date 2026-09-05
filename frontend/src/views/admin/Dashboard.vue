@@ -12,18 +12,24 @@
     <div class="grid">
       <el-card shadow="never">
         <template #header><b>近 12 期销售趋势</b></template>
-        <div class="bar-row" v-for="(v, i) in data.salesTrend" :key="i">
-          <span class="bar-label">第{{ i + 1 }}期</span>
-          <div class="bar-track"><div class="bar" :style="{ width: (v / maxSales * 100) + '%' }"></div></div>
-          <span class="bar-value">{{ formatWan(v) }}</span>
-        </div>
+        <template v-if="data.salesTrend && data.salesTrend.length">
+          <div class="bar-row" v-for="(v, i) in data.salesTrend" :key="i">
+            <span class="bar-label">第{{ i + 1 }}期</span>
+            <div class="bar-track"><div class="bar" :style="{ width: (v / maxSales * 100) + '%' }"></div></div>
+            <span class="bar-value">{{ formatWan(v) }}</span>
+          </div>
+        </template>
+        <el-empty v-else description="暂无成交数据" :image-size="70" />
       </el-card>
       <el-card shadow="never">
         <template #header><b>类目销售占比</b></template>
-        <div v-for="c in data.categorySales" :key="c.name" class="cat-row">
-          <span class="cat-name">{{ c.name }}</span>
-          <el-progress :percentage="Math.round(c.value / maxCat * 100)" :format="() => formatWan(c.value)" :stroke-width="16" :color="'#3d7eff'" />
-        </div>
+        <template v-if="data.categorySales && data.categorySales.length">
+          <div v-for="c in data.categorySales" :key="c.name" class="cat-row">
+            <span class="cat-name">{{ c.name }}</span>
+            <el-progress :percentage="Math.round(c.value / maxCat * 100)" :format="() => formatWan(c.value)" :stroke-width="16" :color="'#3d7eff'" />
+          </div>
+        </template>
+        <el-empty v-else description="暂无订单数据" :image-size="70" />
       </el-card>
     </div>
 

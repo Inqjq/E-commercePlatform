@@ -83,3 +83,14 @@ function onCommand(cmd) {
 .user { display: flex; align-items: center; gap: 8px; cursor: pointer; outline: none; }
 .main { background: var(--df-bg-page); }
 </style>
+
+<style>
+/* 平台端全局后台样式：统一表格/卡片/分页观感 */
+.backoffice .page { padding: 24px 28px; }
+.backoffice .el-card { border-radius: 10px; border-color: #eef1f6; box-shadow: 0 1px 2px rgba(31,47,79,.04) !important; }
+.backoffice .el-table th.el-table__cell { background: #f7f9fc; color: #4a5568; font-weight: 600; }
+.backoffice .el-table .el-table__row:hover > td { background: #f0f5ff; }
+.backoffice .el-table .cell { line-height: 22px; }
+.backoffice .el-pagination { margin-top: 16px; justify-content: flex-end; }
+.backoffice .el-tag { border-radius: 4px; }
+</style>
