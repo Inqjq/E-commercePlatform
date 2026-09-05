@@ -65,8 +65,14 @@ async function handleLogin() {
   try {
     await userStore.login({ account: form.account, password: form.password, phone: form.phone, code: form.code });
     ElMessage.success('登录成功');
-    const redirect = route.query.redirect || '/';
-    router.push(redirect);
+    const roles = userStore.userInfo?.roles || [];
+    // 有显式 redirect（如被登录拦截的结算页）优先；否则按角色进入各自系统
+    const redirect = route.query.redirect;
+    if (redirect) {
+      router.push(redirect);
+    } else {
+      router.push(roles.includes('ADMIN') ? '/admin' : roles.includes('MERCHANT') ? '/merchant' : '/');
+    }
   } finally {
     loading.value = false;
   }
