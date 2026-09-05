@@ -1,8 +1,15 @@
 <template>
   <div class="auth-page">
-    <div class="auth-card">
+    <div class="auth-card" :class="'id-' + identity.toLowerCase()">
       <div class="brand"><img src="/favicon.svg" /><span>渡风电商平台</span></div>
-      <h2>欢迎登录</h2>
+      <h2>{{ loginTitle }}</h2>
+      <div class="identity">
+        <el-radio-group v-model="identity" class="identity-group">
+          <el-radio-button value="USER">商城用户</el-radio-button>
+          <el-radio-button value="MERCHANT">商家</el-radio-button>
+          <el-radio-button value="ADMIN">平台管理员</el-radio-button>
+        </el-radio-group>
+      </div>
       <el-tabs v-model="activeTab">
         <el-tab-pane label="账号密码" name="password">
           <el-form ref="formRef" :model="form" :rules="rules" label-position="top" @keyup.enter="handleLogin">
@@ -34,7 +41,7 @@
 </template>
 
 <script setup>
-import { reactive, ref } from 'vue';
+import { reactive, ref, computed } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import { ElMessage } from 'element-plus';
 import { User, Lock, Iphone, Key } from '@element-plus/icons-vue';
@@ -47,6 +54,8 @@ const userStore = useUserStore();
 const isDev = import.meta.env.DEV;
 const formRef = ref();
 const activeTab = ref('password');
+const identity = ref('USER');
+const loginTitle = computed(() => ({ USER: '欢迎登录 · 商城', MERCHANT: '商家中心登录', ADMIN: '平台管理中心登录' }[identity.value] || '欢迎登录'));
 const loading = ref(false);
 const counting = ref(0);
 const form = reactive({ account: '', password: '', phone: '', code: '' });
@@ -66,9 +75,15 @@ async function handleLogin() {
     await userStore.login({ account: form.account, password: form.password, phone: form.phone, code: form.code });
     ElMessage.success('登录成功');
     const roles = userStore.userInfo?.roles || [];
-    // 有显式 redirect（如被登录拦截的结算页）优先；否则按角色进入各自系统
     const redirect = route.query.redirect;
+    // 只能跳本角色所属区域，否则回各自系统首页
+    let allowed = false;
     if (redirect) {
+      allowed = roles.includes('ADMIN') ? redirect.startsWith('/admin')
+        : roles.includes('MERCHANT') ? redirect.startsWith('/merchant')
+        : true;
+    }
+    if (allowed) {
       router.push(redirect);
     } else {
       router.push(roles.includes('ADMIN') ? '/admin' : roles.includes('MERCHANT') ? '/merchant' : '/');
@@ -93,6 +108,12 @@ function sendCode() {
 <style scoped>
 .auth-page { min-height: 100%; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg,#3d7eff22,#f5f7fa); }
 .auth-card { width: 420px; background: #fff; border-radius: 12px; padding: 36px; box-shadow: var(--df-shadow); }
+.auth-card.id-merchant { border-top: 4px solid #e8a33d; }
+.auth-card.id-admin { border-top: 4px solid #3d7eff; }
+.auth-card.id-user { border-top: 4px solid #3d7eff; }
+.identity { margin: 0 0 18px; }
+.identity-group { display: flex; }
+.identity-group :deep(.el-radio-button__inner) { font-size: 14px; }
 .brand { display: flex; align-items: center; gap: 10px; justify-content: center; color: var(--df-primary); font-weight: 700; font-size: 18px; margin-bottom: 8px; }
 .brand img { width: 30px; }
 h2 { text-align: center; margin: 8px 0 24px; font-weight: 600; }

@@ -41,15 +41,15 @@ const routes = [
   {
     path: '/merchant',
     component: MerchantLayout,
-    meta: { requiresAuth: true, roles: ['MERCHANT', 'ADMIN'] },
+    meta: { requiresAuth: true, roles: ['MERCHANT'] },
     children: [
-      { path: '', name: 'MerchantDashboard', component: () => import('@/views/merchant/Dashboard.vue'), meta: { title: '商家工作台', requiresAuth: true, roles: ['MERCHANT', 'ADMIN'] } },
-      { path: 'goods', name: 'MerchantGoods', component: () => import('@/views/merchant/GoodsManage.vue'), meta: { title: '商品管理', requiresAuth: true, roles: ['MERCHANT', 'ADMIN'] } },
-      { path: 'goods/edit/:id?', name: 'MerchantGoodsEdit', component: () => import('@/views/merchant/GoodsEdit.vue'), meta: { title: '编辑商品', requiresAuth: true, roles: ['MERCHANT', 'ADMIN'] } },
-      { path: 'stock', name: 'MerchantStock', component: () => import('@/views/merchant/StockManage.vue'), meta: { title: '库存管理', requiresAuth: true, roles: ['MERCHANT', 'ADMIN'] } },
-      { path: 'orders', name: 'MerchantOrders', component: () => import('@/views/merchant/OrderManage.vue'), meta: { title: '订单管理', requiresAuth: true, roles: ['MERCHANT', 'ADMIN'] } },
-      { path: 'after-sales', name: 'MerchantAfterSale', component: () => import('@/views/merchant/AfterSaleManage.vue'), meta: { title: '售后管理', requiresAuth: true, roles: ['MERCHANT', 'ADMIN'] } },
-      { path: 'marketing', name: 'MerchantMarketing', component: () => import('@/views/merchant/Marketing.vue'), meta: { title: '营销管理', requiresAuth: true, roles: ['MERCHANT', 'ADMIN'] } },
+      { path: '', name: 'MerchantDashboard', component: () => import('@/views/merchant/Dashboard.vue'), meta: { title: '商家工作台', requiresAuth: true, roles: ['MERCHANT'] } },
+      { path: 'goods', name: 'MerchantGoods', component: () => import('@/views/merchant/GoodsManage.vue'), meta: { title: '商品管理', requiresAuth: true, roles: ['MERCHANT'] } },
+      { path: 'goods/edit/:id?', name: 'MerchantGoodsEdit', component: () => import('@/views/merchant/GoodsEdit.vue'), meta: { title: '编辑商品', requiresAuth: true, roles: ['MERCHANT'] } },
+      { path: 'stock', name: 'MerchantStock', component: () => import('@/views/merchant/StockManage.vue'), meta: { title: '库存管理', requiresAuth: true, roles: ['MERCHANT'] } },
+      { path: 'orders', name: 'MerchantOrders', component: () => import('@/views/merchant/OrderManage.vue'), meta: { title: '订单管理', requiresAuth: true, roles: ['MERCHANT'] } },
+      { path: 'after-sales', name: 'MerchantAfterSale', component: () => import('@/views/merchant/AfterSaleManage.vue'), meta: { title: '售后管理', requiresAuth: true, roles: ['MERCHANT'] } },
+      { path: 'marketing', name: 'MerchantMarketing', component: () => import('@/views/merchant/Marketing.vue'), meta: { title: '营销管理', requiresAuth: true, roles: ['MERCHANT'] } },
     ],
   },
   {

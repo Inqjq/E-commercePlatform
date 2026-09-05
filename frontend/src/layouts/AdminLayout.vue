@@ -3,7 +3,7 @@
     <el-aside :width="appStore.collapsed ? '64px' : '220px'" class="aside">
       <div class="brand">
         <img src="/favicon.svg" alt="logo" />
-        <span v-show="!appStore.collapsed">渡风平台端</span>
+        <span v-show="!appStore.collapsed" class="brand-text admin">渡风平台管理中心</span>
       </div>
       <el-menu :default-active="$route.path" :collapse="appStore.collapsed" router class="menu">
         <el-menu-item v-for="item in menus" :key="item.path" :index="item.path">
@@ -70,11 +70,12 @@ function onCommand(cmd) {
 
 <style scoped>
 .backoffice { height: 100%; }
-.aside { background: #1f2731; transition: width .2s; overflow-x: hidden; }
+.aside { background: #1d2740; transition: width .2s; overflow-x: hidden; }
 .brand { height: 60px; display: flex; align-items: center; justify-content: center; gap: 10px; color: #fff; font-weight: 700; }
 .brand img { width: 28px; height: 28px; }
+.brand-text.admin { color: #7db3ff; }
 .menu { border-right: none; background: transparent; --el-menu-bg-color: transparent; --el-menu-text-color: #b8c0cc; --el-menu-active-color: #fff; --el-menu-hover-bg-color: #2a3340; }
-.menu :deep(.el-menu-item.is-active) { background: var(--df-primary); }
+.menu :deep(.el-menu-item.is-active) { background: #3d7eff; }
 .header { background: #fff; display: flex; align-items: center; justify-content: space-between; padding: 0 20px; box-shadow: 0 1px 4px rgba(0,0,0,.06); }
 .left, .right { display: flex; align-items: center; gap: 12px; }
 .collapse-btn { font-size: 20px; cursor: pointer; }
