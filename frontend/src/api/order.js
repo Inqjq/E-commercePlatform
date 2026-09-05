@@ -50,7 +50,10 @@ export function normalizeOrder(order) {
  * 后端按店铺拆单，可能返回多笔订单；这里返回首笔（含 orderNos 全量）便于收银台跳转。
  */
 export async function createOrder(data) {
-  const list = await request.post('/portal/orders', { ...data, requestId: data.requestId || crypto.randomUUID() });
+  const requestId = data.requestId || (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function'
+    ? crypto.randomUUID()
+    : `req-${Date.now()}-${Math.random().toString(16).slice(2)}`);
+  const list = await request.post('/portal/orders', { ...data, requestId });
   const orders = Array.isArray(list) ? list : [list];
   return { ...(orders[0] || {}), orderNos: orders.map((o) => o.orderNo) };
 }
