@@ -5,9 +5,9 @@ import { getGoodsList, getCategories } from './goods';
  * 后续后端若提供 /api/portal/home 等配置接口，可在此处优先读取后端数据。
  */
 const DEFAULT_BANNERS = [
-  { id: 1, title: '新品首发 · 华为 Mate 60 Pro', image: '/img/banner-1.svg', link: '/goods/list?keyword=%E5%8D%8E%E4%B8%BA' },
-  { id: 2, title: '超级品牌日 · 爆款直降', image: '/img/banner-2.svg', link: '/goods/list?sortBy=sales' },
-  { id: 3, title: '年中大促 · 满 99 元包邮', image: '/img/banner-3.svg', link: '/goods/list' },
+  { id: 1, title: '新品首发 · 华为 Mate 60 Pro', image: '/img/banner-1.jpg', link: '/goods/list?keyword=%E5%8D%8E%E4%B8%BA' },
+  { id: 2, title: '超级品牌日 · 爆款直降', image: '/img/banner-2.jpg', link: '/goods/list?sortBy=sales' },
+  { id: 3, title: '年中大促 · 满 99 元包邮', image: '/img/banner-3.jpg', link: '/goods/list' },
 ];
 
 const DEFAULT_NOTICES = [

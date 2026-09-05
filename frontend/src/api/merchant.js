@@ -6,7 +6,7 @@ const GOODS_STATUS_BY_CODE = { 0: 'DRAFT', 1: 'PENDING', 2: 'ON_SALE', 3: 'OFF_S
 const CODE_BY_GOODS_STATUS = { DRAFT: 0, PENDING: 1, ON_SALE: 2, OFF_SALE: 3, REJECTED: 4 };
 const ORDER_CODE_BY_STATUS = { PENDING_PAYMENT: 0, PENDING_SHIP: 1, SHIPPED: 2, COMPLETED: 3, CANCELLED: 4, AFTERSALE: 5 };
 
-function normalizeGoods(g) {
+export function normalizeGoods(g) {
   return g ? { ...g, status: typeof g.status === 'number' ? (GOODS_STATUS_BY_CODE[g.status] ?? g.status) : g.status } : g;
 }
 

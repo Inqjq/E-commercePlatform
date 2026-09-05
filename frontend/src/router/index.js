@@ -90,8 +90,8 @@ router.beforeEach((to, from, next) => {
   }
   if (to.meta?.roles && to.meta.roles.length) {
     const user = getUser();
-    const role = user?.role || 'USER';
-    if (!to.meta.roles.includes(role)) {
+    const roles = Array.isArray(user?.roles) ? user?.roles : [];
+    if (!roles.some((r) => to.meta.roles.includes(r))) {
       // 无对应角色一律拦截，接口权限由后端兜底校验
       ElMessage.warning('您没有访问该页面的权限');
       return next('/');

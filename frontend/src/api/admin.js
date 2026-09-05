@@ -1,5 +1,6 @@
 import request from './request';
 import { ElMessage } from 'element-plus';
+import { normalizeGoods } from './merchant';
 
 const GOODS_STATUS_BY_CODE = { 0: 'DRAFT', 1: 'PENDING', 2: 'ON_SALE', 3: 'OFF_SALE', 4: 'REJECTED' };
 const CODE_BY_GOODS_STATUS = { DRAFT: 0, PENDING: 1, ON_SALE: 2, OFF_SALE: 3, REJECTED: 4 };

@@ -42,6 +42,7 @@ backend/
 5. 访问 Swagger：http://localhost:8080/swagger-ui.html（生产 profile 自动关闭）
 
 首次启动会由 Flyway 自动建表。`DataInitializer` 仅在 `dev` profile 生成演示账号（幂等），生产需自行创建管理员：
+首次启动会由 Flyway 自动建表并播种初始化数据：`V1__init.sql` 建表，`V3__init_seed_cloud.sql` 从云服务器数据库导出演示账号、类目、品牌、商家、店铺、商品与 SKU（全部 `INSERT IGNORE`，幂等，可安全重复执行）。因此下列 demo 账号可直接登录；生产环境如需重置数据，以云库为准或自行创建管理员。
 
 | 角色 | 用户名 | 密码 |
 | --- | --- | --- |

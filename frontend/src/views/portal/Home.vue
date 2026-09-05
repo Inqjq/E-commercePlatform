@@ -5,7 +5,6 @@
         <el-carousel v-if="home.banners" class="banner" height="360px" :interval="4000" arrow="hover">
           <el-carousel-item v-for="b in home.banners" :key="b.id" @click="$router.push(b.link)">
             <img :src="b.image" :alt="b.title" class="banner-img" />
-            <div class="banner-title">{{ b.title }}</div>
           </el-carousel-item>
         </el-carousel>
         <div class="category-side">
@@ -86,7 +85,6 @@ onMounted(async () => {
 .hero { gap: 16px; align-items: stretch; }
 .banner { flex: 1; border-radius: var(--df-radius); overflow: hidden; cursor: pointer; }
 .banner-img { width: 100%; height: 100%; object-fit: cover; }
-.banner-title { position: absolute; bottom: 16px; left: 16px; color: #fff; font-size: 22px; font-weight: 700; text-shadow: 0 2px 6px rgba(0,0,0,.4); }
 .category-side { width: 220px; background: #fff; border-radius: var(--df-radius); box-shadow: var(--df-shadow); padding: 8px 0; flex-shrink: 0; }
 .cat-title { font-size: 16px; font-weight: 700; padding: 8px 16px; }
 .cat-list { list-style: none; padding: 0; margin: 0; }
