@@ -75,6 +75,10 @@ async function handleLogin() {
   try {
     await userStore.login({ account: form.account, password: form.password, phone: form.phone, code: form.code });
     ElMessage.success('登录成功');
+    if ((route.meta?.end === 'ADMIN' && !(userStore.userInfo?.roles || []).includes('ADMIN'))
+      || (route.meta?.end === 'MERCHANT' && !(userStore.userInfo?.roles || []).includes('MERCHANT'))) {
+      ElMessage.warning('该账号无当前端权限，已为您转至对应系统');
+    }
     const roles = userStore.userInfo?.roles || [];
     const redirect = route.query.redirect;
     // 只能跳本角色所属区域，否则回各自系统首页
