@@ -13,6 +13,7 @@ public class GoodsVO {
     private String shopName;
     private Long categoryId;
     private Long brandId;
+    private String brandName;
     private String title;
     private String subtitle;
     private String mainImage;

@@ -66,8 +66,14 @@ public class GoodsServiceImpl implements GoodsService {
                 .eq(query.getShopId() != null, Goods::getShopId, query.getShopId())
                 .and(StringUtils.hasText(query.getKeyword()), q -> q
                         .like(Goods::getTitle, query.getKeyword())
-                        .or().like(Goods::getSubtitle, query.getKeyword()));
-        if (query.getPriceMin() != null) {
+                          .or().like(Goods::getSubtitle, query.getKeyword()));
+          if (query.getStatus() != null) {
+              wrapper.eq(Goods::getStatus, query.getStatus());
+          }
+          if (query.getAuditStatus() != null) {
+              wrapper.eq(Goods::getAuditStatus, query.getAuditStatus());
+          }
+          if (query.getPriceMin() != null) {
             wrapper.ge(Goods::getPrice, query.getPriceMin());
         }
         if (query.getPriceMax() != null) {
@@ -239,6 +245,12 @@ public class GoodsServiceImpl implements GoodsService {
             Shop shop = shopMapper.selectById(goods.getShopId());
             if (shop != null) {
                 vo.setShopName(shop.getName());
+            }
+        }
+        if (goods.getBrandId() != null) {
+            var brand = brandMapper.selectById(goods.getBrandId());
+            if (brand != null) {
+                vo.setBrandName(brand.getName());
             }
         }
         return vo;

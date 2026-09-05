@@ -82,6 +82,7 @@ export async function getAdminGoods(params = {}) {
     size: params.size || 10,
     keyword: params.keyword || undefined,
     status: CODE_BY_GOODS_STATUS[params.status] ?? undefined,
+    auditStatus: params.auditStatus ?? undefined,
   };
   const data = await request.get('/admin/goods', { params: query });
   return {
