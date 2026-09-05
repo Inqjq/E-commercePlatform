@@ -61,7 +61,16 @@ public class CartServiceImpl implements CartService {
             item.setShopId(goodsService.getById(sku.getGoodsId()).getShopId());
             item.setQuantity(quantity);
             item.setChecked(1);
-            cartItemMapper.insert(item);
+            // 该 SKU 此前可能被逻辑删除（deleted=1）但仍占用唯一键：先尝试复活软删行
+            int restored = cartItemMapper.restoreSoftDeleted(userId, skuId, quantity);
+            if (restored == 0) {
+                try {
+                    cartItemMapper.insert(item);
+                } catch (org.springframework.dao.DuplicateKeyException e) {
+                    // 并发重复加购：累加已有有效行
+                    cartItemMapper.increaseQuantity(userId, skuId, quantity);
+                }
+            }
         }
     }
 
