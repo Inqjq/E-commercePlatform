@@ -57,7 +57,7 @@ const menus = [
 
 function onCommand(cmd) {
   if (cmd === 'logout') {
-    userStore.logout().then(() => { ElMessage.success('已退出登录'); router.push('/login'); });
+    userStore.logout().then(() => { ElMessage.success('已退出登录'); router.push('/merchant/login'); });
   } else if (cmd === 'portal') {
     router.push('/');
   }

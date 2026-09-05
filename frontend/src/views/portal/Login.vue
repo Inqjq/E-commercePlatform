@@ -1,9 +1,9 @@
 <template>
   <div class="auth-page">
     <div class="auth-card" :class="'id-' + identity.toLowerCase()">
-      <div class="brand"><img src="/favicon.svg" /><span>渡风电商平台</span></div>
+      <div class="brand"><img src="/favicon.svg" /><span>{{ brandText }}</span></div>
       <h2>{{ loginTitle }}</h2>
-      <div class="identity">
+      <div v-if="end === 'USER'" class="identity">
         <el-radio-group v-model="identity" class="identity-group">
           <el-radio-button value="USER">商城用户</el-radio-button>
           <el-radio-button value="MERCHANT">商家</el-radio-button>
@@ -54,8 +54,9 @@ const userStore = useUserStore();
 const isDev = import.meta.env.DEV;
 const formRef = ref();
 const activeTab = ref('password');
-const identity = ref('USER');
+const identity = ref(route.meta?.end || 'USER');
 const loginTitle = computed(() => ({ USER: '欢迎登录 · 商城', MERCHANT: '商家中心登录', ADMIN: '平台管理中心登录' }[identity.value] || '欢迎登录'));
+const brandText = computed(() => ({ USER: '渡风商城', MERCHANT: '渡风商家中心', ADMIN: '渡风平台管理中心' }[identity.value] || '渡风电商平台'));
 const loading = ref(false);
 const counting = ref(0);
 const form = reactive({ account: '', password: '', phone: '', code: '' });

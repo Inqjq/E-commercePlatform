@@ -11,7 +11,19 @@ const routes = [
     path: '/login',
     name: 'Login',
     component: () => import('@/views/portal/Login.vue'),
-    meta: { title: '登录' },
+    meta: { title: '登录', end: 'USER' },
+  },
+  {
+    path: '/merchant/login',
+    name: 'MerchantLogin',
+    component: () => import('@/views/portal/Login.vue'),
+    meta: { title: '商家中心登录', end: 'MERCHANT' },
+  },
+  {
+    path: '/admin/login',
+    name: 'AdminLogin',
+    component: () => import('@/views/portal/Login.vue'),
+    meta: { title: '平台管理中心登录', end: 'ADMIN' },
   },
   {
     path: '/register',
@@ -86,7 +98,10 @@ router.beforeEach((to, from, next) => {
 
   const authed = isLoggedIn();
   if (to.meta?.requiresAuth && !authed) {
-    return next({ path: '/login', query: { redirect: to.fullPath } });
+    const loginPath = to.path.startsWith('/admin') ? '/admin/login'
+      : to.path.startsWith('/merchant') ? '/merchant/login'
+      : '/login';
+    return next({ path: loginPath, query: { redirect: to.fullPath } });
   }
   if (to.meta?.roles && to.meta.roles.length) {
     const user = getUser();
